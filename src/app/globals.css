@@ -1,0 +1,107 @@
+@import "tailwindcss";
+
+@theme inline {
+  --color-green-dark: #162816;
+  --color-green-deep: #162816;
+  --color-green-medium: #2a4a2a;
+  --color-cream: #f5f2eb;
+  --color-cream-dark: #e8e4db;
+  --color-gold: #c4a55a;
+  --font-heading: "Playfair Display", serif;
+  --font-body: "DM Sans", sans-serif;
+}
+
+:root {
+  --background: #162816;
+  --foreground: #f5f2eb;
+}
+
+body {
+  background: var(--background);
+  color: var(--foreground);
+  font-family: var(--font-dm-sans), "DM Sans", sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  font-family: var(--font-playfair), "Playfair Display", serif;
+}
+
+/* ── Scroll animations ── */
+.fade-in {
+  opacity: 0;
+  transform: translateY(24px);
+  transition: opacity 0.9s cubic-bezier(0.16, 1, 0.3, 1), transform 0.9s cubic-bezier(0.16, 1, 0.3, 1);
+}
+.fade-in.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+.fade-in-delay-1 { transition-delay: 0.15s; }
+.fade-in-delay-2 { transition-delay: 0.3s; }
+.fade-in-delay-3 { transition-delay: 0.45s; }
+.fade-in-delay-4 { transition-delay: 0.6s; }
+
+/* ── Grid overlay for hero ── */
+.grid-overlay {
+  background-image:
+    linear-gradient(rgba(245,242,235,0.025) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(245,242,235,0.025) 1px, transparent 1px);
+  background-size: 80px 80px;
+}
+
+/* ── Subtle film grain ── */
+.grain::after {
+  content: "";
+  position: fixed;
+  inset: 0;
+  z-index: 9999;
+  pointer-events: none;
+  opacity: 0.03;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  background-repeat: repeat;
+  background-size: 256px 256px;
+}
+
+/* ── Small caps utility ── */
+.small-caps {
+  font-variant: small-caps;
+  letter-spacing: 0.25em;
+}
+
+/* ── Vertical line animation ── */
+.vertical-line {
+  width: 1px;
+  height: 60px;
+  background: linear-gradient(to bottom, transparent, rgba(245, 242, 235, 0.6));
+  animation: pulse-line 2.5s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+}
+@keyframes pulse-line {
+  0%, 100% { opacity: 0.3; height: 50px; }
+  50% { opacity: 1; height: 65px; }
+}
+
+/* ── Horizontal rule accent ── */
+.hr-accent {
+  width: 48px;
+  height: 2px;
+  background: linear-gradient(90deg, rgba(245,242,235,0.6), transparent);
+}
+
+/* ── Scrollbar styling ── */
+::-webkit-scrollbar { width: 4px; }
+::-webkit-scrollbar-track { background: #1a2e1a; }
+::-webkit-scrollbar-thumb { background: #2a4a2a; border-radius: 2px; }
+
+/* ── Selection ── */
+::selection { background: rgba(74,107,74,0.4); color: #f5f2eb; }
+
+/* ── Smooth page transitions ── */
+main {
+  animation: pageEnter 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+}
+@keyframes pageEnter {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
