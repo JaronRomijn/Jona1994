@@ -40,6 +40,9 @@ yarn-error.log*
 cloudflared.exe
 tunnel.log
 
+# large video files (too big for GitHub)
+*.mp4
+
 # typescript
 *.tsbuildinfo
 next-env.d.ts
