@@ -1,7 +1,10 @@
 "use client";
 
-import ScrollReveal from "@/components/ScrollReveal";
 import { useState } from "react";
+import { motion, AnimatePresence } from "framer-motion";
+import FadeIn from "@/components/FadeIn";
+import TextReveal from "@/components/TextReveal";
+import MagneticButton from "@/components/MagneticButton";
 
 const propertyTypes = [
   "Residential",
@@ -24,6 +27,7 @@ export default function Enquire() {
     description: "",
   });
   const [submitted, setSubmitted] = useState(false);
+  const [focusedField, setFocusedField] = useState<string | null>(null);
 
   const handleChange = (
     e: React.ChangeEvent<
@@ -41,45 +45,59 @@ export default function Enquire() {
   if (submitted) {
     return (
       <div className="bg-green-dark min-h-screen flex items-center justify-center px-6">
-        <div className="text-center max-w-lg">
-          <h2 className="font-heading text-cream text-4xl md:text-5xl mb-6">
+        <motion.div
+          className="text-center max-w-lg"
+          initial={{ opacity: 0, y: 30 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.8, ease: [0.22, 1, 0.36, 1] }}
+        >
+          <h2 className="font-heading text-cream text-4xl md:text-5xl mb-6 font-light">
             Thank you.
           </h2>
-          <p className="text-cream/50 text-lg font-body leading-relaxed">
+          <p className="text-cream/40 text-lg font-body leading-relaxed font-light">
             We have received your enquiry and will be in touch shortly.
           </p>
-        </div>
+          <motion.div
+            className="h-px bg-cream/15 mx-auto mt-10"
+            initial={{ width: 0 }}
+            animate={{ width: 80 }}
+            transition={{ duration: 1, delay: 0.3, ease: [0.22, 1, 0.36, 1] }}
+          />
+        </motion.div>
       </div>
     );
   }
 
   const inputClasses =
-    "bg-transparent border-b border-cream/15 text-cream text-lg font-body pb-3 outline-none focus:border-cream/50 transition-colors duration-500 placeholder:text-cream/15 w-full";
+    "bg-transparent border-b border-cream/10 text-cream text-lg font-body pb-4 pt-2 outline-none focus:border-cream/40 transition-all duration-600 placeholder:text-cream/10 w-full font-light";
 
   return (
     <div className="bg-green-dark min-h-screen">
-      <section className="pt-32 pb-20 md:pb-32 px-6 md:px-12 max-w-[1400px] mx-auto">
-        <ScrollReveal>
-          <p className="text-cream/30 text-xs tracking-[0.35em] uppercase mb-6 font-body">
+      <section className="pt-32 md:pt-40 pb-20 md:pb-32 px-6 md:px-12 max-w-[1400px] mx-auto">
+        <FadeIn>
+          <p className="text-cream/25 text-[10px] tracking-[0.4em] uppercase mb-8 font-body">
             Start a Conversation
           </p>
-        </ScrollReveal>
-        <ScrollReveal delay={1}>
-          <h1 className="font-heading text-cream text-[2.8rem] md:text-6xl lg:text-[5.2rem] leading-[1.08] max-w-4xl tracking-[-0.01em]">
-            Tell us about
-            <br />
-            <em className="italic text-cream/80">your deal.</em>
-          </h1>
-        </ScrollReveal>
+        </FadeIn>
+        <TextReveal
+          as="h1"
+          className="font-heading text-cream text-[2.8rem] md:text-[4.5rem] lg:text-[5.5rem] leading-[1.06] max-w-4xl tracking-[-0.02em]"
+        >
+          Tell us about your deal.
+        </TextReveal>
 
-        <ScrollReveal delay={2}>
+        <FadeIn delay={0.3}>
           <form
             onSubmit={handleSubmit}
-            className="mt-16 md:mt-24 max-w-3xl grid grid-cols-1 md:grid-cols-2 gap-x-12 gap-y-10"
+            className="mt-20 md:mt-28 max-w-3xl grid grid-cols-1 md:grid-cols-2 gap-x-14 gap-y-12"
           >
             {/* Name */}
-            <div className="flex flex-col gap-3">
-              <label className="text-cream/30 text-[10px] tracking-[0.3em] uppercase font-body">
+            <motion.div
+              className="flex flex-col gap-3"
+              animate={{ y: focusedField === "name" ? -2 : 0 }}
+              transition={{ duration: 0.3 }}
+            >
+              <label className="text-cream/25 text-[10px] tracking-[0.35em] uppercase font-body transition-colors duration-500" style={{ color: focusedField === "name" ? "rgba(245,242,235,0.5)" : undefined }}>
                 Full Name
               </label>
               <input
@@ -88,14 +106,20 @@ export default function Enquire() {
                 required
                 value={formData.name}
                 onChange={handleChange}
+                onFocus={() => setFocusedField("name")}
+                onBlur={() => setFocusedField(null)}
                 placeholder="John van der Berg"
                 className={inputClasses}
               />
-            </div>
+            </motion.div>
 
             {/* Email */}
-            <div className="flex flex-col gap-3">
-              <label className="text-cream/30 text-[10px] tracking-[0.3em] uppercase font-body">
+            <motion.div
+              className="flex flex-col gap-3"
+              animate={{ y: focusedField === "email" ? -2 : 0 }}
+              transition={{ duration: 0.3 }}
+            >
+              <label className="text-cream/25 text-[10px] tracking-[0.35em] uppercase font-body transition-colors duration-500" style={{ color: focusedField === "email" ? "rgba(245,242,235,0.5)" : undefined }}>
                 Email Address
               </label>
               <input
@@ -104,14 +128,20 @@ export default function Enquire() {
                 required
                 value={formData.email}
                 onChange={handleChange}
+                onFocus={() => setFocusedField("email")}
+                onBlur={() => setFocusedField(null)}
                 placeholder="john@company.nl"
                 className={inputClasses}
               />
-            </div>
+            </motion.div>
 
             {/* Phone */}
-            <div className="flex flex-col gap-3">
-              <label className="text-cream/30 text-[10px] tracking-[0.3em] uppercase font-body">
+            <motion.div
+              className="flex flex-col gap-3"
+              animate={{ y: focusedField === "phone" ? -2 : 0 }}
+              transition={{ duration: 0.3 }}
+            >
+              <label className="text-cream/25 text-[10px] tracking-[0.35em] uppercase font-body transition-colors duration-500" style={{ color: focusedField === "phone" ? "rgba(245,242,235,0.5)" : undefined }}>
                 Phone Number
               </label>
               <input
@@ -119,14 +149,20 @@ export default function Enquire() {
                 name="phone"
                 value={formData.phone}
                 onChange={handleChange}
+                onFocus={() => setFocusedField("phone")}
+                onBlur={() => setFocusedField(null)}
                 placeholder="+31 6 1234 5678"
                 className={inputClasses}
               />
-            </div>
+            </motion.div>
 
             {/* Property Type */}
-            <div className="flex flex-col gap-3">
-              <label className="text-cream/30 text-[10px] tracking-[0.3em] uppercase font-body">
+            <motion.div
+              className="flex flex-col gap-3"
+              animate={{ y: focusedField === "propertyType" ? -2 : 0 }}
+              transition={{ duration: 0.3 }}
+            >
+              <label className="text-cream/25 text-[10px] tracking-[0.35em] uppercase font-body transition-colors duration-500" style={{ color: focusedField === "propertyType" ? "rgba(245,242,235,0.5)" : undefined }}>
                 Type of Real Estate
               </label>
               <select
@@ -134,7 +170,10 @@ export default function Enquire() {
                 required
                 value={formData.propertyType}
                 onChange={handleChange}
-                className={`${inputClasses} appearance-none cursor-pointer [&>option]:bg-green-dark [&>option]:text-cream`}
+                onFocus={() => setFocusedField("propertyType")}
+                onBlur={() => setFocusedField(null)}
+                className={`${inputClasses} appearance-none [&>option]:bg-green-dark [&>option]:text-cream`}
+                style={{ cursor: "none" }}
               >
                 <option value="" disabled>
                   Select asset class
@@ -145,11 +184,15 @@ export default function Enquire() {
                   </option>
                 ))}
               </select>
-            </div>
+            </motion.div>
 
             {/* Loan Amount */}
-            <div className="flex flex-col gap-3 md:col-span-2">
-              <label className="text-cream/30 text-[10px] tracking-[0.3em] uppercase font-body">
+            <motion.div
+              className="flex flex-col gap-3 md:col-span-2"
+              animate={{ y: focusedField === "loanAmount" ? -2 : 0 }}
+              transition={{ duration: 0.3 }}
+            >
+              <label className="text-cream/25 text-[10px] tracking-[0.35em] uppercase font-body transition-colors duration-500" style={{ color: focusedField === "loanAmount" ? "rgba(245,242,235,0.5)" : undefined }}>
                 Indicative Loan Amount
               </label>
               <input
@@ -157,14 +200,20 @@ export default function Enquire() {
                 name="loanAmount"
                 value={formData.loanAmount}
                 onChange={handleChange}
+                onFocus={() => setFocusedField("loanAmount")}
+                onBlur={() => setFocusedField(null)}
                 placeholder="e.g. €8M"
                 className={inputClasses}
               />
-            </div>
+            </motion.div>
 
             {/* Description */}
-            <div className="flex flex-col gap-3 md:col-span-2">
-              <label className="text-cream/30 text-[10px] tracking-[0.3em] uppercase font-body">
+            <motion.div
+              className="flex flex-col gap-3 md:col-span-2"
+              animate={{ y: focusedField === "description" ? -2 : 0 }}
+              transition={{ duration: 0.3 }}
+            >
+              <label className="text-cream/25 text-[10px] tracking-[0.35em] uppercase font-body transition-colors duration-500" style={{ color: focusedField === "description" ? "rgba(245,242,235,0.5)" : undefined }}>
                 Tell us about your project
               </label>
               <textarea
@@ -173,22 +222,24 @@ export default function Enquire() {
                 rows={5}
                 value={formData.description}
                 onChange={handleChange}
+                onFocus={() => setFocusedField("description")}
+                onBlur={() => setFocusedField(null)}
                 placeholder="Describe the asset, the opportunity, and what you need funded..."
                 className={`${inputClasses} resize-none`}
               />
-            </div>
+            </motion.div>
 
             {/* Submit */}
-            <div className="md:col-span-2 mt-4">
-              <button
-                type="submit"
-                className="text-xs tracking-[0.25em] uppercase border border-cream/30 text-cream/80 px-10 py-4 hover:bg-cream hover:text-green-dark transition-all duration-500 font-body"
+            <div className="md:col-span-2 mt-6">
+              <MagneticButton
+                className="text-[10px] tracking-[0.3em] uppercase border border-cream/20 text-cream/70 px-12 py-5 hover:bg-cream hover:text-green-dark transition-all duration-600 font-body btn-glow"
+                strength={0.25}
               >
                 Submit Enquiry
-              </button>
+              </MagneticButton>
             </div>
           </form>
-        </ScrollReveal>
+        </FadeIn>
       </section>
     </div>
   );

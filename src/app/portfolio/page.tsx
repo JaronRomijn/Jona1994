@@ -1,7 +1,12 @@
 "use client";
+
 import { useState } from "react";
-import ScrollReveal from "@/components/ScrollReveal";
+import { motion, useInView } from "framer-motion";
+import { useRef } from "react";
 import Image from "next/image";
+import FadeIn from "@/components/FadeIn";
+import TextReveal from "@/components/TextReveal";
+import AnimatedCounter from "@/components/AnimatedCounter";
 
 const deals = [
   { city: "Amsterdam", amount: "€8.5M", type: "Construction Loan", sector: "Residential" },
@@ -18,8 +23,6 @@ const deals = [
   { city: "Den Haag", amount: "€8.5M", type: "Bridge", sector: "Residential" },
 ];
 
-// City coordinates as percentages of the map container
-// Based on the real Netherlands SVG (1000x1000 viewBox)
 const cityCoords: Record<string, { x: number; y: number }> = {
   "Amsterdam":            { x: 41.5, y: 38.5 },
   "Amstelveen":           { x: 41.0, y: 41.0 },
@@ -34,186 +37,236 @@ const cityCoords: Record<string, { x: number; y: number }> = {
   "Beuningen & Leerdam":  { x: 52.0, y: 56.0 },
 };
 
+function DealRow({ deal, index, onHover, onLeave }: {
+  deal: typeof deals[0];
+  index: number;
+  onHover: (city: string) => void;
+  onLeave: () => void;
+}) {
+  const ref = useRef(null);
+  const isInView = useInView(ref, { once: true, margin: "-5% 0px" });
+
+  return (
+    <motion.div
+      ref={ref}
+      className="group border-t border-cream/[0.06] py-7 md:py-8 flex items-center justify-between px-2 md:px-4 transition-all duration-500"
+      initial={{ opacity: 0 }}
+      animate={isInView ? { opacity: 1 } : {}}
+      transition={{ duration: 0.6, delay: index * 0.05, ease: [0.22, 1, 0.36, 1] }}
+      onMouseEnter={() => onHover(deal.city)}
+      onMouseLeave={onLeave}
+      whileHover={{
+        paddingLeft: 20,
+        backgroundColor: "rgba(245,242,235,0.015)",
+      }}
+      data-cursor-hover
+    >
+      <div className="flex-1">
+        <div className="flex flex-col md:flex-row md:items-baseline gap-1 md:gap-5">
+          <h3 className="font-heading text-cream text-xl md:text-[1.6rem] tracking-[-0.01em] font-light">
+            {deal.city}
+          </h3>
+          <span className="font-heading text-cream/40 text-lg md:text-xl font-light">
+            {deal.amount}
+          </span>
+        </div>
+        <p className="text-cream/25 text-[11px] tracking-[0.15em] uppercase mt-1.5 font-body">
+          {deal.type}
+          {deal.sector ? ` · ${deal.sector}` : ""}
+        </p>
+      </div>
+
+      <motion.div
+        className="text-cream/0 group-hover:text-cream/30 transition-colors duration-500 ml-4"
+        whileHover={{ x: 3 }}
+      >
+        <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1}>
+          <path strokeLinecap="round" strokeLinejoin="round" d="m8.25 4.5 7.5 7.5-7.5 7.5" />
+        </svg>
+      </motion.div>
+    </motion.div>
+  );
+}
+
 export default function Portfolio() {
   const [hoveredCity, setHoveredCity] = useState<string | null>(null);
+  const totalDeployed = deals.reduce((sum, d) => {
+    const num = parseFloat(d.amount.replace("€", "").replace("M", ""));
+    return sum + num;
+  }, 0);
 
   return (
     <div className="bg-green-dark min-h-screen">
-      <section className="pt-32 pb-20 md:pb-32 px-6 md:px-12 max-w-[1400px] mx-auto">
-        <ScrollReveal>
-          <p className="text-cream/30 text-xs tracking-[0.35em] uppercase mb-6 font-body">
+      {/* Full-width image */}
+      <section className="w-full h-[25vh] md:h-[35vh] relative overflow-hidden" style={{ zIndex: 1 }}>
+        <motion.img
+          src="/images/pexels-mike-van-schoonderwalt-1884800-5511806.jpg"
+          alt="Dutch canal"
+          className="absolute inset-0 w-full h-full object-cover"
+          style={{ filter: "grayscale(100%) brightness(0.6) contrast(1.1)", opacity: 0.4 }}
+          initial={{ scale: 1.1 }}
+          whileInView={{ scale: 1 }}
+          viewport={{ once: true }}
+          transition={{ duration: 1.5, ease: [0.22, 1, 0.36, 1] }}
+        />
+        <div className="absolute bottom-0 left-0 right-0 h-[60%] bg-gradient-to-t from-green-dark to-transparent z-10 pointer-events-none" />
+        <div className="absolute inset-0 z-10 pointer-events-none" style={{
+          background: "radial-gradient(ellipse at center, transparent 30%, rgba(22,40,22,0.7) 100%)"
+        }} />
+      </section>
+
+      <section className="pt-32 md:pt-40 pb-20 md:pb-32 px-6 md:px-12 max-w-[1400px] mx-auto">
+        <FadeIn>
+          <p className="text-cream/25 text-[10px] tracking-[0.4em] uppercase mb-8 font-body">
             Track Record
           </p>
-        </ScrollReveal>
-        <ScrollReveal delay={1}>
-          <h1 className="font-heading text-cream text-[2.8rem] md:text-6xl lg:text-[5.2rem] leading-[1.08] max-w-3xl tracking-[-0.01em]">
-            Portfolio
-          </h1>
-        </ScrollReveal>
+        </FadeIn>
+        <TextReveal
+          as="h1"
+          className="font-heading text-cream text-[2.8rem] md:text-[4.5rem] lg:text-[5.5rem] leading-[1.06] max-w-3xl tracking-[-0.02em]"
+        >
+          Portfolio
+        </TextReveal>
 
-        {/* Two-column layout: deals left, map right */}
-        <div className="mt-16 md:mt-24 flex flex-col md:flex-row gap-12">
-          {/* Deal list — left side */}
+        {/* Two-column layout */}
+        <div className="mt-20 md:mt-28 flex flex-col md:flex-row gap-12">
+          {/* Deal list */}
           <div className="flex-1 min-w-0">
             {deals.map((deal, i) => (
-              <ScrollReveal key={`${deal.city}-${deal.amount}-${i}`}>
-                <div
-                  className="group border-t border-cream/8 py-6 md:py-7 flex items-center justify-between cursor-default transition-all duration-500 hover:pl-4 hover:bg-cream/[0.02] px-2 md:px-4"
-                  onMouseEnter={() => setHoveredCity(deal.city)}
-                  onMouseLeave={() => setHoveredCity(null)}
-                >
-                  <div className="flex-1">
-                    <div className="flex flex-col md:flex-row md:items-baseline gap-1 md:gap-4">
-                      <h3 className="font-heading text-cream text-2xl md:text-[1.75rem] tracking-[-0.01em]">
-                        {deal.city}
-                      </h3>
-                      <span className="font-heading text-cream/50 text-xl md:text-2xl">
-                        {deal.amount}
-                      </span>
-                    </div>
-                    <p className="text-cream/30 text-sm tracking-[0.12em] uppercase mt-1 font-body">
-                      {deal.type}
-                      {deal.sector ? ` · ${deal.sector}` : ""}
-                    </p>
-                  </div>
-
-                  {/* Chevron */}
-                  <div className="text-cream/15 group-hover:text-cream/40 group-hover:translate-x-1 transition-all duration-500 ml-4">
-                    <svg
-                      className="w-5 h-5"
-                      fill="none"
-                      viewBox="0 0 24 24"
-                      stroke="currentColor"
-                      strokeWidth={1}
-                    >
-                      <path
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                        d="m8.25 4.5 7.5 7.5-7.5 7.5"
-                      />
-                    </svg>
-                  </div>
-                </div>
-              </ScrollReveal>
+              <DealRow
+                key={`${deal.city}-${deal.amount}-${i}`}
+                deal={deal}
+                index={i}
+                onHover={setHoveredCity}
+                onLeave={() => setHoveredCity(null)}
+              />
             ))}
-            {/* Bottom border */}
-            <div className="border-t border-cream/8" />
+            <div className="border-t border-cream/[0.06]" />
 
-            {/* Summary stat */}
-            <ScrollReveal delay={2}>
-              <div className="mt-16 flex gap-16">
-                <div>
-                  <p className="font-heading text-cream/60 text-4xl md:text-5xl tracking-[-0.02em]">
-                    €{deals.reduce((sum, d) => {
-                      const num = parseFloat(d.amount.replace("€", "").replace("M", ""));
-                      return sum + num;
-                    }, 0).toFixed(1)}M
-                  </p>
-                  <p className="text-cream/25 text-xs tracking-[0.3em] uppercase mt-2 font-body">
-                    Total Deployed
-                  </p>
-                </div>
-                <div>
-                  <p className="font-heading text-cream/60 text-4xl md:text-5xl tracking-[-0.02em]">
-                    {deals.length}
-                  </p>
-                  <p className="text-cream/25 text-xs tracking-[0.3em] uppercase mt-2 font-body">
-                    Transactions
-                  </p>
-                </div>
+            {/* Summary stats */}
+            <FadeIn delay={0.2} className="mt-20 flex gap-20">
+              <div>
+                <p className="font-heading text-cream/50 tracking-[-0.03em]">
+                  <AnimatedCounter
+                    value={totalDeployed}
+                    prefix="€"
+                    suffix="M"
+                    decimals={1}
+                    className="text-4xl md:text-5xl"
+                    duration={2.5}
+                  />
+                </p>
+                <p className="text-cream/20 text-[10px] tracking-[0.35em] uppercase mt-3 font-body">
+                  Total Deployed
+                </p>
               </div>
-            </ScrollReveal>
+              <div>
+                <p className="font-heading text-cream/50 tracking-[-0.03em]">
+                  <AnimatedCounter
+                    value={deals.length}
+                    className="text-4xl md:text-5xl"
+                    duration={1.5}
+                  />
+                </p>
+                <p className="text-cream/20 text-[10px] tracking-[0.35em] uppercase mt-3 font-body">
+                  Transactions
+                </p>
+              </div>
+            </FadeIn>
           </div>
 
-          {/* Map — below on mobile, sticky right on desktop */}
+          {/* Map */}
           <div className="w-full md:w-[520px] shrink-0 order-first md:order-last mb-8 md:mb-0">
             <div className="md:sticky md:top-32">
-              <div className="relative mx-auto max-w-[250px] md:max-w-none" style={{ width: "100%", aspectRatio: "1/1" }}>
-                {/* Real Netherlands SVG map as background */}
-                <Image
-                  src="/images/Map of Netherlands.svg"
-                  alt="Map of the Netherlands"
-                  fill
-                  className="object-contain opacity-[0.12]"
-                  unoptimized
-                  style={{ filter: "brightness(3) saturate(0)" }}
-                />
+              <FadeIn delay={0.3}>
+                <div className="relative mx-auto max-w-[250px] md:max-w-none" style={{ width: "100%", aspectRatio: "1/1" }}>
+                  <Image
+                    src="/images/Map of Netherlands.svg"
+                    alt="Map of the Netherlands"
+                    fill
+                    className="object-contain opacity-[0.1]"
+                    unoptimized
+                    style={{ filter: "brightness(3) saturate(0)" }}
+                  />
 
-                {/* City dots overlay */}
-                {Object.entries(cityCoords).map(([city, coords]) => {
-                  const isActive = hoveredCity === city;
-                  return (
-                    <div
-                      key={city}
-                      className="absolute"
-                      style={{
-                        left: `${coords.x}%`,
-                        top: `${coords.y}%`,
-                        transform: "translate(-50%, -50%)",
-                      }}
-                    >
-                      {/* Glow ring when active */}
-                      {isActive && (
-                        <div
-                          className="absolute rounded-full animate-ping"
-                          style={{
-                            width: 32,
-                            height: 32,
-                            left: -16,
-                            top: -16,
-                            border: "1px solid rgba(245,242,235,0.2)",
-                            animationDuration: "2s",
-                          }}
-                        />
-                      )}
-                      {isActive && (
-                        <div
-                          className="absolute rounded-full"
-                          style={{
-                            width: 20,
-                            height: 20,
-                            left: -10,
-                            top: -10,
-                            background: "rgba(245,242,235,0.06)",
-                            border: "0.5px solid rgba(245,242,235,0.2)",
-                          }}
-                        />
-                      )}
-                      {/* Dot */}
+                  {Object.entries(cityCoords).map(([city, coords]) => {
+                    const isActive = hoveredCity === city;
+                    return (
                       <div
-                        className="rounded-full transition-all duration-500"
+                        key={city}
+                        className="absolute"
                         style={{
-                          width: isActive ? 8 : 5,
-                          height: isActive ? 8 : 5,
-                          marginLeft: isActive ? -4 : -2.5,
-                          marginTop: isActive ? -4 : -2.5,
-                          background: isActive
-                            ? "rgba(245,242,235,0.9)"
-                            : "rgba(245,242,235,0.3)",
-                          boxShadow: isActive
-                            ? "0 0 12px rgba(245,242,235,0.4)"
-                            : "none",
+                          left: `${coords.x}%`,
+                          top: `${coords.y}%`,
+                          transform: "translate(-50%, -50%)",
                         }}
-                      />
-                      {/* Label when active */}
-                      {isActive && (
-                        <div
-                          className="absolute whitespace-nowrap font-body text-cream/60"
-                          style={{
-                            left: 12,
-                            top: -6,
-                            fontSize: 11,
-                            letterSpacing: "0.1em",
-                            textTransform: "uppercase",
+                      >
+                        {isActive && (
+                          <motion.div
+                            className="absolute rounded-full"
+                            style={{
+                              width: 36,
+                              height: 36,
+                              left: -18,
+                              top: -18,
+                              border: "1px solid rgba(245,242,235,0.15)",
+                            }}
+                            initial={{ scale: 0.5, opacity: 0 }}
+                            animate={{ scale: [0.5, 1.5], opacity: [0.5, 0] }}
+                            transition={{ duration: 1.5, repeat: Infinity }}
+                          />
+                        )}
+                        {isActive && (
+                          <div
+                            className="absolute rounded-full"
+                            style={{
+                              width: 22,
+                              height: 22,
+                              left: -11,
+                              top: -11,
+                              background: "rgba(245,242,235,0.04)",
+                              border: "0.5px solid rgba(245,242,235,0.15)",
+                            }}
+                          />
+                        )}
+                        <motion.div
+                          className="rounded-full"
+                          animate={{
+                            width: isActive ? 8 : 4,
+                            height: isActive ? 8 : 4,
+                            marginLeft: isActive ? -4 : -2,
+                            marginTop: isActive ? -4 : -2,
+                            background: isActive
+                              ? "rgba(245,242,235,0.9)"
+                              : "rgba(245,242,235,0.25)",
+                            boxShadow: isActive
+                              ? "0 0 16px rgba(245,242,235,0.4)"
+                              : "none",
                           }}
-                        >
-                          {city}
-                        </div>
-                      )}
-                    </div>
-                  );
-                })}
-              </div>
+                          transition={{ duration: 0.4, ease: [0.22, 1, 0.36, 1] }}
+                        />
+                        {isActive && (
+                          <motion.div
+                            className="absolute whitespace-nowrap font-body text-cream/50"
+                            style={{
+                              left: 14,
+                              top: -7,
+                              fontSize: 10,
+                              letterSpacing: "0.15em",
+                              textTransform: "uppercase",
+                            }}
+                            initial={{ opacity: 0, x: -5 }}
+                            animate={{ opacity: 1, x: 0 }}
+                            transition={{ duration: 0.3 }}
+                          >
+                            {city}
+                          </motion.div>
+                        )}
+                      </div>
+                    );
+                  })}
+                </div>
+              </FadeIn>
             </div>
           </div>
         </div>

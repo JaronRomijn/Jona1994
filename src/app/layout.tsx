@@ -3,6 +3,9 @@ import { Playfair_Display, DM_Sans } from "next/font/google";
 import "./globals.css";
 import Navigation from "@/components/Navigation";
 import Footer from "@/components/Footer";
+import SmoothScroll from "@/components/SmoothScroll";
+import CustomCursor from "@/components/CustomCursor";
+import PageLoader from "@/components/PageLoader";
 
 const playfair = Playfair_Display({
   variable: "--font-playfair",
@@ -35,9 +38,13 @@ export default function RootLayout({
       <body
         className={`${playfair.variable} ${dmSans.variable} antialiased grain`}
       >
-        <Navigation />
-        <main>{children}</main>
-        <Footer />
+        <SmoothScroll>
+          <PageLoader />
+          <CustomCursor />
+          <Navigation />
+          <main>{children}</main>
+          <Footer />
+        </SmoothScroll>
       </body>
     </html>
   );

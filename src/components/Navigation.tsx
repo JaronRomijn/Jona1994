@@ -3,6 +3,8 @@
 import Link from "next/link";
 import { useState, useEffect } from "react";
 import { usePathname } from "next/navigation";
+import { motion, AnimatePresence } from "framer-motion";
+import MagneticButton from "./MagneticButton";
 
 const navLinks = [
   { href: "/", label: "Home" },
@@ -27,105 +29,138 @@ export default function Navigation() {
     setIsOpen(false);
   }, [pathname]);
 
+  // Lock body scroll when menu is open
+  useEffect(() => {
+    if (isOpen) {
+      document.body.style.overflow = "hidden";
+    } else {
+      document.body.style.overflow = "";
+    }
+    return () => { document.body.style.overflow = ""; };
+  }, [isOpen]);
+
   return (
     <nav
       className={`fixed top-0 left-0 right-0 z-50 transition-all duration-700 ${
         scrolled
-          ? "bg-green-dark/95 backdrop-blur-md py-4"
-          : "bg-transparent py-6"
+          ? "bg-green-dark/90 backdrop-blur-xl py-4"
+          : "bg-transparent py-6 md:py-8"
       }`}
     >
       <div className="max-w-[1400px] mx-auto px-6 md:px-12 flex items-center justify-between">
         {/* Logo */}
-        <Link href="/" className="group">
-          <span className="font-heading text-cream text-[26px] tracking-[0.15em] font-light transition-opacity duration-300 group-hover:opacity-80">
+        <Link href="/" className="group relative z-50">
+          <motion.span
+            className="font-heading text-cream text-[24px] md:text-[28px] tracking-[0.2em] font-light block"
+            whileHover={{ opacity: 0.7 }}
+            transition={{ duration: 0.3 }}
+          >
             LOR
-          </span>
+          </motion.span>
         </Link>
 
         {/* Desktop Links */}
-        <div className="hidden md:flex items-center gap-10">
+        <div className="hidden md:flex items-center gap-12">
           {navLinks.map((link) => (
             <Link
               key={link.href}
               href={link.href}
-              className={`text-xs tracking-[0.18em] uppercase transition-colors duration-300 font-body ${
+              className={`relative text-[11px] tracking-[0.2em] uppercase transition-colors duration-500 font-body hover-line ${
                 pathname === link.href
                   ? "text-cream"
-                  : "text-cream/40 hover:text-cream/80"
+                  : "text-cream/35 hover:text-cream/70"
               }`}
             >
               {link.label}
+              {pathname === link.href && (
+                <motion.div
+                  className="absolute -bottom-1 left-0 right-0 h-px bg-cream/40"
+                  layoutId="nav-underline"
+                  transition={{ duration: 0.5, ease: [0.22, 1, 0.36, 1] }}
+                />
+              )}
             </Link>
           ))}
-          <Link
+          <MagneticButton
+            as="a"
             href="/enquire"
-            className="text-xs tracking-[0.18em] uppercase border border-cream/30 text-cream/80 px-6 py-2.5 hover:bg-cream hover:text-green-dark transition-all duration-500 font-body"
+            className="text-[11px] tracking-[0.2em] uppercase border border-cream/20 text-cream/70 px-7 py-3 hover:bg-cream hover:text-green-dark transition-all duration-600 font-body btn-glow"
+            strength={0.2}
           >
             Enquire
-          </Link>
+          </MagneticButton>
         </div>
 
         {/* Mobile Hamburger */}
         <button
           onClick={() => setIsOpen(!isOpen)}
-          className="md:hidden flex flex-col gap-1.5 p-2"
+          className="md:hidden flex flex-col gap-1.5 p-2 relative z-50"
           aria-label="Toggle menu"
         >
-          <span
-            className={`block w-6 h-px bg-cream transition-all duration-300 ${
-              isOpen ? "rotate-45 translate-y-[3.5px]" : ""
-            }`}
+          <motion.span
+            className="block w-7 h-px bg-cream"
+            animate={isOpen ? { rotate: 45, y: 3.5 } : { rotate: 0, y: 0 }}
+            transition={{ duration: 0.4, ease: [0.22, 1, 0.36, 1] }}
           />
-          <span
-            className={`block w-6 h-px bg-cream transition-all duration-300 ${
-              isOpen ? "opacity-0" : ""
-            }`}
+          <motion.span
+            className="block w-7 h-px bg-cream"
+            animate={isOpen ? { opacity: 0, scaleX: 0 } : { opacity: 1, scaleX: 1 }}
+            transition={{ duration: 0.3 }}
           />
-          <span
-            className={`block w-6 h-px bg-cream transition-all duration-300 ${
-              isOpen ? "-rotate-45 -translate-y-[3.5px]" : ""
-            }`}
+          <motion.span
+            className="block w-7 h-px bg-cream"
+            animate={isOpen ? { rotate: -45, y: -3.5 } : { rotate: 0, y: 0 }}
+            transition={{ duration: 0.4, ease: [0.22, 1, 0.36, 1] }}
           />
         </button>
       </div>
 
-      {/* Mobile Menu */}
-      <div
-        className={`md:hidden fixed inset-0 top-0 bg-green-dark z-40 flex flex-col items-center justify-center gap-8 transition-all duration-500 ${
-          isOpen
-            ? "opacity-100 pointer-events-auto"
-            : "opacity-0 pointer-events-none"
-        }`}
-      >
-        <button
-          onClick={() => setIsOpen(false)}
-          className="absolute top-6 right-6 p-2"
-          aria-label="Close menu"
-        >
-          <span className="block w-6 h-px bg-cream rotate-45 translate-y-px" />
-          <span className="block w-6 h-px bg-cream -rotate-45" />
-        </button>
-        {navLinks.map((link) => (
-          <Link
-            key={link.href}
-            href={link.href}
-            className={`font-heading text-3xl tracking-[0.1em] transition-colors ${
-              pathname === link.href
-                ? "text-cream"
-                : "text-cream/40 hover:text-cream"
-            }`}
+      {/* Mobile Menu — Full Screen */}
+      <AnimatePresence>
+        {isOpen && (
+          <motion.div
+            className="md:hidden fixed inset-0 bg-green-dark z-40 flex flex-col items-center justify-center gap-2"
+            initial={{ clipPath: "inset(0 0 100% 0)" }}
+            animate={{ clipPath: "inset(0 0 0% 0)" }}
+            exit={{ clipPath: "inset(0 0 100% 0)" }}
+            transition={{ duration: 0.6, ease: [0.76, 0, 0.24, 1] }}
           >
-            {link.label}
-          </Link>
-        ))}
-        <Link
-          href="/enquire"
-          className="mt-4 text-xs tracking-[0.18em] uppercase border border-cream/30 text-cream px-8 py-3 hover:bg-cream hover:text-green-dark transition-all duration-500 font-body"
-        >
-          Enquire
-        </Link>
-      </div>
+            {navLinks.map((link, i) => (
+              <motion.div
+                key={link.href}
+                initial={{ opacity: 0, y: 30 }}
+                animate={{ opacity: 1, y: 0 }}
+                exit={{ opacity: 0, y: -20 }}
+                transition={{ duration: 0.5, delay: 0.15 + i * 0.08, ease: [0.22, 1, 0.36, 1] }}
+              >
+                <Link
+                  href={link.href}
+                  className={`font-heading text-[2.5rem] tracking-[0.08em] transition-colors block py-2 ${
+                    pathname === link.href
+                      ? "text-cream"
+                      : "text-cream/30 hover:text-cream"
+                  }`}
+                >
+                  {link.label}
+                </Link>
+              </motion.div>
+            ))}
+            <motion.div
+              initial={{ opacity: 0, y: 30 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: -20 }}
+              transition={{ duration: 0.5, delay: 0.55, ease: [0.22, 1, 0.36, 1] }}
+            >
+              <Link
+                href="/enquire"
+                className="mt-8 text-[11px] tracking-[0.2em] uppercase border border-cream/20 text-cream px-10 py-4 hover:bg-cream hover:text-green-dark transition-all duration-500 font-body inline-block"
+              >
+                Enquire
+              </Link>
+            </motion.div>
+          </motion.div>
+        )}
+      </AnimatePresence>
     </nav>
   );
 }
