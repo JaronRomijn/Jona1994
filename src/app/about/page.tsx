@@ -86,12 +86,12 @@ export default function About() {
           </p>
         </ScrollReveal>
         <ScrollReveal delay={1}>
-          <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-8">
+          <div className="flex flex-col md:flex-row md:items-end md:justify-between gap-8">
             <h1 className="font-heading text-cream text-[2.8rem] md:text-6xl lg:text-[5.2rem] leading-[1.08] max-w-4xl tracking-[-0.01em]">
-              We are not your<br />
-              <em className="italic text-cream/80">typical</em> lender.
+              We are not<br />
+              your <em className="italic text-cream/80">typical</em> lender.
             </h1>
-            <div className="flex flex-wrap md:flex-nowrap gap-3 shrink-0 justify-center md:justify-end">
+            <div className="flex flex-wrap md:flex-nowrap gap-3 shrink-0 justify-center md:justify-end mb-2">
               {Object.keys(pillData).map((badge) => (
                 <PillBadge key={badge} label={badge} />
               ))}
