@@ -1,18 +1,13 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
-import { motion, useMotionValue, useSpring } from "framer-motion";
+import { motion, useMotionValue } from "framer-motion";
 
 export default function CustomCursor() {
   const [isHovering, setIsHovering] = useState(false);
   const [isHidden, setIsHidden] = useState(false);
-  const [cursorText, setCursorText] = useState("");
   const cursorX = useMotionValue(-100);
   const cursorY = useMotionValue(-100);
-
-  const springConfig = { damping: 25, stiffness: 350, mass: 0.5 };
-  const cursorXSpring = useSpring(cursorX, springConfig);
-  const cursorYSpring = useSpring(cursorY, springConfig);
 
   const dotRef = useRef<HTMLDivElement>(null);
 
@@ -31,8 +26,6 @@ export default function CustomCursor() {
       const interactiveEl = target.closest("a, button, [data-cursor-hover], [data-cursor-text]");
       if (interactiveEl) {
         setIsHovering(true);
-        const text = interactiveEl.getAttribute("data-cursor-text");
-        if (text) setCursorText(text);
       }
     };
 
@@ -41,7 +34,6 @@ export default function CustomCursor() {
       const interactiveEl = target.closest("a, button, [data-cursor-hover], [data-cursor-text]");
       if (interactiveEl) {
         setIsHovering(false);
-        setCursorText("");
       }
     };
 
@@ -70,18 +62,14 @@ export default function CustomCursor() {
         ref={dotRef}
         className="custom-cursor-ring"
         style={{
-          left: cursorXSpring,
-          top: cursorYSpring,
+          left: cursorX,
+          top: cursorY,
+          x: "-50%",
+          y: "-50%",
           opacity: isHidden ? 0 : 1,
           scale: isHovering ? 2.5 : 1,
         }}
-      >
-        {cursorText && isHovering && (
-          <span className="text-[8px] tracking-[0.15em] uppercase text-cream/80 font-body whitespace-nowrap">
-            {cursorText}
-          </span>
-        )}
-      </motion.div>
+      />
       {/* Inner dot */}
       <motion.div
         className="custom-cursor-dot"

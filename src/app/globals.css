@@ -64,10 +64,6 @@ h1, h2, h3, h4, h5, h6 {
   border-radius: 50%;
   pointer-events: none;
   z-index: 99999;
-  transform: translate(-50%, -50%);
-  display: flex;
-  align-items: center;
-  justify-content: center;
   mix-blend-mode: difference;
   transition: border-color 0.3s;
 }
@@ -137,7 +133,7 @@ h1, h2, h3, h4, h5, h6 {
 .vertical-line {
   width: 1px;
   height: 60px;
-  background: linear-gradient(to bottom, transparent, rgba(245, 242, 235, 0.6));
+  background: linear-gradient(to bottom, transparent, rgba(245, 242, 235, 0.9));
   animation: pulse-line 2.5s cubic-bezier(0.4, 0, 0.6, 1) infinite;
 }
 @keyframes pulse-line {

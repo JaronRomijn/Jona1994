@@ -68,7 +68,7 @@ export default function Navigation() {
               className={`relative text-[11px] tracking-[0.2em] uppercase transition-colors duration-500 font-body hover-line ${
                 pathname === link.href
                   ? "text-cream"
-                  : "text-cream/35 hover:text-cream/70"
+                  : "text-cream/80 hover:text-cream/70"
               }`}
             >
               {link.label}
@@ -82,7 +82,7 @@ export default function Navigation() {
             </Link>
           ))}
           <MagneticButton
-            as="a"
+            as="link"
             href="/enquire"
             className="text-[11px] tracking-[0.2em] uppercase border border-cream/20 text-cream/70 px-7 py-3 hover:bg-cream hover:text-green-dark transition-all duration-600 font-body btn-glow"
             strength={0.2}
@@ -138,7 +138,7 @@ export default function Navigation() {
                   className={`font-heading text-[2.5rem] tracking-[0.08em] transition-colors block py-2 ${
                     pathname === link.href
                       ? "text-cream"
-                      : "text-cream/30 hover:text-cream"
+                      : "text-cream/80 hover:text-cream"
                   }`}
                 >
                   {link.label}

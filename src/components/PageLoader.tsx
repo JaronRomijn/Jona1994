@@ -38,7 +38,7 @@ export default function PageLoader() {
               transition={{ duration: 1.4, ease: [0.22, 1, 0.36, 1], delay: 0.3 }}
             />
             <motion.p
-              className="text-cream/30 text-[10px] tracking-[0.5em] uppercase font-body mt-4"
+              className="text-cream/80 text-[14px] tracking-[0.5em] uppercase font-body mt-4"
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               transition={{ duration: 0.5, delay: 0.6 }}

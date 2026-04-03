@@ -49,7 +49,7 @@ function AssetChip({ label, isRight, index }: { label: string; isRight: boolean;
       transition={{ duration: 0.6, delay: 0.2 + index * 0.08, ease: [0.22, 1, 0.36, 1] }}
     >
       <span
-        className="text-cream/40 text-sm md:text-base tracking-[0.2em] uppercase border-b border-cream/8 pb-2 font-body transition-all duration-500 hover:border-cream/30 hover:text-cream inline-block whitespace-nowrap"
+        className="text-cream/85 text-sm md:text-base tracking-[0.2em] uppercase border-b border-cream/8 pb-2 font-body transition-all duration-500 hover:border-cream/30 hover:text-cream inline-block whitespace-nowrap"
         data-cursor-hover
       >
         {label}
@@ -78,7 +78,7 @@ function AssetChip({ label, isRight, index }: { label: string; isRight: boolean;
             />
           </div>
           <div className="bg-green-dark/95 backdrop-blur-md px-4 py-3">
-            <p className="text-cream/30 text-[10px] tracking-[0.35em] uppercase mb-1 font-body">
+            <p className="text-cream/80 text-[14px] tracking-[0.35em] uppercase mb-1 font-body">
               {label}
             </p>
             <p className="text-cream/55 text-xs leading-relaxed font-body">
@@ -137,36 +137,28 @@ function LoanTypeRow({ loan, index }: { loan: typeof loanTypes[0]; index: number
     >
       {/* Desktop: single row */}
       <div className="hidden md:flex items-baseline">
-        <span className="text-cream/10 text-[10px] tracking-[0.35em] font-body group-hover:text-cream/30 transition-colors duration-500" style={{ width: "50px", flexShrink: 0 }}>
+        <span className="text-cream/80 text-[14px] tracking-[0.35em] font-body group-hover:text-cream/80 transition-colors duration-500" style={{ width: "50px", flexShrink: 0 }}>
           {loan.number}
         </span>
         <h3 className="font-heading text-cream/60 text-[1.8rem] tracking-[-0.01em] group-hover:text-cream transition-colors duration-500 whitespace-nowrap font-light" style={{ width: "320px", flexShrink: 0 }}>
           {loan.title}
         </h3>
         <span className="text-cream/8 font-body mx-5 flex-shrink-0">&mdash;</span>
-        <p className="text-cream/25 text-sm leading-[1.8] font-body group-hover:text-cream/50 transition-colors duration-500">
+        <p className="text-cream/75 text-sm leading-[1.8] font-body group-hover:text-cream/50 transition-colors duration-500">
           {loan.description}
         </p>
-        <motion.div
-          className="ml-auto pl-6 text-cream/0 group-hover:text-cream/30 transition-colors duration-500"
-          whileHover={{ x: 4 }}
-        >
-          <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1}>
-            <path strokeLinecap="round" strokeLinejoin="round" d="m4.5 19.5 15-15m0 0H8.25m11.25 0v11.25" />
-          </svg>
-        </motion.div>
       </div>
       {/* Mobile: stacked */}
       <div className="md:hidden">
         <div className="flex items-baseline gap-3">
-          <span className="text-cream/10 text-[10px] tracking-[0.35em] font-body group-hover:text-cream/30 transition-colors duration-500">
+          <span className="text-cream/80 text-[14px] tracking-[0.35em] font-body group-hover:text-cream/80 transition-colors duration-500">
             {loan.number}
           </span>
           <h3 className="font-heading text-cream/60 text-2xl tracking-[-0.01em] group-hover:text-cream transition-colors duration-500 font-light">
             {loan.title}
           </h3>
         </div>
-        <p className="text-cream/25 text-xs leading-[1.8] font-body mt-2 pl-8">
+        <p className="text-cream/75 text-xs leading-[1.8] font-body mt-2 pl-8">
           {loan.description}
         </p>
       </div>
@@ -180,7 +172,7 @@ export default function Deals() {
       {/* Hero */}
       <section className="pt-32 md:pt-40 pb-6 px-6 md:px-12 max-w-[1400px] mx-auto relative" style={{ zIndex: 30 }}>
         <FadeIn>
-          <p className="text-cream/25 text-[10px] tracking-[0.4em] uppercase mb-8 font-body">
+          <p className="text-cream/75 text-[14px] tracking-[0.4em] uppercase mb-8 font-body">
             What We Do
           </p>
         </FadeIn>
@@ -188,6 +180,7 @@ export default function Deals() {
           <TextReveal
             as="h1"
             className="font-heading text-cream text-[2.8rem] md:text-[4.5rem] lg:text-[6rem] leading-[1.04] max-w-[900px] tracking-[-0.02em]"
+            wordStyles={{ "understands": "italic text-cream/60" }}
           >
             Capital that understands real estate.
           </TextReveal>
@@ -195,7 +188,7 @@ export default function Deals() {
           {/* Asset Classes */}
           <div className="shrink-0">
             <FadeIn delay={0.2}>
-              <p className="text-cream/25 text-[10px] md:text-xs tracking-[0.35em] uppercase mb-6 font-body">
+              <p className="text-cream/75 text-[14px] md:text-xs tracking-[0.35em] uppercase mb-6 font-body">
                 Asset Classes We Finance
               </p>
             </FadeIn>
@@ -206,10 +199,38 @@ export default function Deals() {
                 </div>
               ))}
             </div>
+
+            {/* Parameters */}
+            <div className="flex flex-row gap-10 mt-10">
+              <FadeIn delay={0.3}>
+                <div>
+                  <p className="text-cream/75 text-[10px] tracking-[0.35em] uppercase mb-2 font-body">
+                    Maximum LTV
+                  </p>
+                  <p className="font-heading text-cream leading-none tracking-[-0.04em]">
+                    <AnimatedCounter value={75} className="text-[2rem] md:text-[2.8rem]" />
+                    <span className="text-cream/70 text-[1.2rem] md:text-[1.8rem]">%</span>
+                  </p>
+                </div>
+              </FadeIn>
+              <FadeIn delay={0.4}>
+                <div>
+                  <p className="text-cream/75 text-[10px] tracking-[0.35em] uppercase mb-2 font-body">
+                    Ticket Size
+                  </p>
+                  <p className="font-heading text-cream leading-none tracking-[-0.04em]">
+                    <AnimatedCounter value={4} className="text-[2rem] md:text-[2.8rem]" />
+                    <span className="text-cream/70 text-[1.2rem] md:text-[1.8rem]">&ndash;</span>
+                    <AnimatedCounter value={40} className="text-[2rem] md:text-[2.8rem]" duration={2.5} />
+                    <span className="text-cream/70 text-[1rem] md:text-[1.4rem] ml-1">M</span>
+                  </p>
+                </div>
+              </FadeIn>
+            </div>
           </div>
         </div>
         <FadeIn delay={0.3}>
-          <p className="text-cream/30 text-lg md:text-xl leading-[1.8] font-body max-w-xl mt-12 font-light">
+          <p className="text-cream/80 text-lg md:text-xl leading-[1.8] font-body max-w-xl mt-12 font-light">
             We provide bespoke debt financing across the Netherlands — structured around the deal, not the other way around.
           </p>
         </FadeIn>
@@ -232,58 +253,36 @@ export default function Deals() {
         <div className="absolute inset-0 z-10 pointer-events-none" style={{
           background: "radial-gradient(ellipse at center, transparent 30%, rgba(22,40,22,0.7) 100%)"
         }} />
-      </section>
 
-      {/* Divider */}
-      <FadeIn className="max-w-[1400px] mx-auto px-6 md:px-12">
-        <div className="w-full h-px bg-cream/[0.05] my-8" />
-      </FadeIn>
-
-      {/* Parameters */}
-      <section className="px-6 md:px-12 max-w-[1400px] mx-auto py-16 md:py-24">
-        <div className="flex flex-col md:flex-row md:items-end gap-16 md:gap-32">
-          <FadeIn>
-            <div>
-              <p className="text-cream/25 text-[10px] tracking-[0.35em] uppercase mb-5 font-body">
-                Maximum LTV
-              </p>
-              <p className="font-heading text-cream leading-none tracking-[-0.04em]">
-                <AnimatedCounter
-                  value={75}
-                  className="text-[5rem] md:text-[8rem]"
-                />
-                <span className="text-cream/20 text-[3rem] md:text-[5rem]">%</span>
-              </p>
-            </div>
-          </FadeIn>
-
-          <FadeIn delay={0.2}>
-            <div>
-              <p className="text-cream/25 text-[10px] tracking-[0.35em] uppercase mb-5 font-body">
-                Ticket Size
-              </p>
-              <p className="font-heading text-cream leading-none tracking-[-0.04em]">
-                <AnimatedCounter
-                  value={4}
-                  className="text-[5rem] md:text-[8rem]"
-                />
-                <span className="text-cream/20 text-[3rem] md:text-[5rem]">&ndash;</span>
-                <AnimatedCounter
-                  value={40}
-                  className="text-[5rem] md:text-[8rem]"
-                  duration={2.5}
-                />
-                <span className="text-cream/20 text-[2.5rem] md:text-[4rem] ml-2">M</span>
-              </p>
-            </div>
-          </FadeIn>
+        {/* Scroll indicator */}
+        <div className="absolute inset-0 z-20 flex flex-col items-center justify-center pb-16">
+          <motion.div
+            className="flex justify-center"
+            initial={{ opacity: 0, scaleY: 0 }}
+            whileInView={{ opacity: 1, scaleY: 1 }}
+            viewport={{ once: true }}
+            transition={{ duration: 1, ease: [0.22, 1, 0.36, 1] }}
+            style={{ transformOrigin: "top" }}
+          >
+            <div className="vertical-line" />
+          </motion.div>
+          <motion.div
+            initial={{ opacity: 0, y: 10 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.8, delay: 0.4, ease: [0.22, 1, 0.36, 1] }}
+          >
+            <span className="inline-block mt-6 text-cream/85 text-[11px] tracking-[0.3em] uppercase font-body">
+              Scroll to explore
+            </span>
+          </motion.div>
         </div>
       </section>
 
       {/* Loan Types */}
       <section className="px-6 md:px-12 max-w-[1400px] mx-auto py-12 md:py-24 overflow-hidden">
         <FadeIn>
-          <p className="text-cream/25 text-[10px] tracking-[0.35em] uppercase mb-14 font-body">
+          <p className="text-cream/75 text-[14px] tracking-[0.35em] uppercase mb-14 font-body">
             Loan Types
           </p>
         </FadeIn>
@@ -297,20 +296,20 @@ export default function Deals() {
 
       {/* Marquee */}
       <div className="py-6 border-y border-cream/[0.04]">
-        <Marquee speed={45} pauseOnHover>
-          <span className="font-heading italic text-cream/[0.05] text-[4rem] md:text-[7rem] tracking-[0.05em] mx-8 select-none">
+        <Marquee speed={10} direction="right" pauseOnHover>
+          <span className="font-heading italic text-cream/66 text-[4rem] md:text-[7rem] tracking-[0.05em] mx-8 select-none">
             Bridge
           </span>
           <span className="text-cream/[0.1] text-lg mx-4 select-none">/</span>
-          <span className="font-heading italic text-cream/[0.05] text-[4rem] md:text-[7rem] tracking-[0.05em] mx-8 select-none">
+          <span className="font-heading italic text-cream/66 text-[4rem] md:text-[7rem] tracking-[0.05em] mx-8 select-none">
             Development
           </span>
           <span className="text-cream/[0.1] text-lg mx-4 select-none">/</span>
-          <span className="font-heading italic text-cream/[0.05] text-[4rem] md:text-[7rem] tracking-[0.05em] mx-8 select-none">
+          <span className="font-heading italic text-cream/66 text-[4rem] md:text-[7rem] tracking-[0.05em] mx-8 select-none">
             Construction
           </span>
           <span className="text-cream/[0.1] text-lg mx-4 select-none">/</span>
-          <span className="font-heading italic text-cream/[0.05] text-[4rem] md:text-[7rem] tracking-[0.05em] mx-8 select-none">
+          <span className="font-heading italic text-cream/66 text-[4rem] md:text-[7rem] tracking-[0.05em] mx-8 select-none">
             Investment
           </span>
           <span className="text-cream/[0.1] text-lg mx-4 select-none">/</span>

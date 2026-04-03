@@ -2,13 +2,16 @@
 
 import { useRef, useState } from "react";
 import { motion } from "framer-motion";
+import Link from "next/link";
+
+const MotionLink = motion(Link);
 
 interface MagneticButtonProps {
   children: React.ReactNode;
   className?: string;
   strength?: number;
   onClick?: () => void;
-  as?: "button" | "a";
+  as?: "button" | "a" | "link";
   href?: string;
   target?: string;
   rel?: string;
@@ -39,6 +42,24 @@ export default function MagneticButton({
   const handleMouseLeave = () => {
     setPosition({ x: 0, y: 0 });
   };
+
+  if (Tag === "link" && href) {
+    return (
+      <MotionLink
+        href={href}
+        className={className}
+        onMouseMove={handleMouseMove}
+        onMouseLeave={handleMouseLeave}
+        onClick={onClick}
+        target={target}
+        rel={rel}
+        animate={{ x: position.x, y: position.y }}
+        transition={{ type: "spring", stiffness: 350, damping: 15, mass: 0.1 }}
+      >
+        {children}
+      </MotionLink>
+    );
+  }
 
   const MotionTag = Tag === "a" ? motion.a : motion.button;
 

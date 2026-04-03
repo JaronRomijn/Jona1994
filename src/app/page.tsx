@@ -1,6 +1,5 @@
 "use client";
 
-import Link from "next/link";
 import { motion } from "framer-motion";
 import Marquee from "@/components/Marquee";
 import MagneticButton from "@/components/MagneticButton";
@@ -42,7 +41,7 @@ export default function Home() {
         <div className="relative z-20 text-center px-6 max-w-6xl mx-auto">
           {/* Tagline */}
           <motion.p
-            className="text-cream/40 text-[11px] md:text-sm tracking-[0.4em] uppercase font-body mb-16 md:mb-20"
+            className="text-cream/85 text-[11px] md:text-sm tracking-[0.4em] uppercase font-body mb-16 md:mb-20"
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 1, delay: 2.2, ease: [0.22, 1, 0.36, 1] }}
@@ -90,7 +89,7 @@ export default function Home() {
             <MagneticButton
               as="a"
               href="/deals"
-              className="inline-block mt-10 text-cream/40 text-[11px] tracking-[0.3em] uppercase font-body group hover-line transition-colors duration-500 hover:text-cream/80"
+              className="inline-block mt-10 text-cream/85 text-[11px] tracking-[0.3em] uppercase font-body group hover-line transition-colors duration-500 hover:text-cream/80"
               strength={0.4}
             >
               Explore the Fund
@@ -99,18 +98,62 @@ export default function Home() {
         </div>
       </section>
 
+      {/* About intro */}
+      <section className="bg-green-dark py-16 md:py-24 px-6 md:px-12">
+        <div className="max-w-[1400px] mx-auto">
+          <div className="grid md:grid-cols-[1fr_2fr] gap-16 md:gap-24 items-start">
+            {/* Left: label */}
+            <motion.div
+              initial={{ opacity: 0, y: 16 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.8, ease: [0.22, 1, 0.36, 1] }}
+            >
+              <p className="text-cream/65 text-[14px] tracking-[0.4em] uppercase font-body pt-2">
+                Est. 2022
+              </p>
+            </motion.div>
+
+            {/* Right: body */}
+            <div>
+              <motion.p
+                className="font-heading text-cream text-[1.6rem] md:text-[2.1rem] leading-[1.35] tracking-[-0.01em] mb-10"
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ duration: 0.9, delay: 0.1, ease: [0.22, 1, 0.36, 1] }}
+              >
+                LOR Finance, established in 2022, is a specialized debt fund with a strategic focus on the real estate sector.
+              </motion.p>
+
+              <div className="hr-accent mb-10" />
+
+              <motion.p
+                className="text-cream/65 text-base md:text-lg leading-[1.9] font-body font-light max-w-2xl"
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ duration: 0.9, delay: 0.2, ease: [0.22, 1, 0.36, 1] }}
+              >
+                Where traditional financing moves at a certain pace, we move differently. We understand your deal so well that we can evaluate and move fast without cutting corners. No endless committees debating whether your asset fits their box. Just real analysis, real understanding, and real speed. Because in real estate, timing matters. That&apos;s LOR Finance.
+              </motion.p>
+            </div>
+          </div>
+        </div>
+      </section>
+
       {/* Marquee divider */}
       <div className="bg-green-dark py-8 border-y border-cream/[0.04]">
-        <Marquee speed={40} className="py-2" pauseOnHover>
-          <span className="font-heading text-cream/[0.07] text-[4rem] md:text-[6rem] tracking-[0.05em] mx-8 select-none">
+        <Marquee speed={10} direction="right" className="py-2" pauseOnHover>
+          <span className="font-heading text-cream/66 text-[4rem] md:text-[6rem] tracking-[0.05em] mx-8 select-none">
             LOR Finance
           </span>
           <span className="text-cream/[0.15] text-xl mx-4 select-none">&bull;</span>
-          <span className="font-body text-cream/[0.07] text-[4rem] md:text-[6rem] tracking-[0.2em] uppercase mx-8 select-none">
+          <span className="font-body text-cream/66 text-[4rem] md:text-[6rem] tracking-[0.2em] uppercase mx-8 select-none">
             Debt Solutions
           </span>
           <span className="text-cream/[0.15] text-xl mx-4 select-none">&bull;</span>
-          <span className="font-heading text-cream/[0.07] text-[4rem] md:text-[6rem] tracking-[0.05em] mx-8 select-none italic">
+          <span className="font-heading text-cream/66 text-[4rem] md:text-[6rem] tracking-[0.05em] mx-8 select-none italic">
             Amsterdam
           </span>
           <span className="text-cream/[0.15] text-xl mx-4 select-none">&bull;</span>
