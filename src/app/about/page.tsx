@@ -97,6 +97,7 @@ export default function About() {
           <p className="text-cream/25 text-[10px] tracking-[0.4em] uppercase mb-8 font-body">
             About LOR Finance
           </p>
+<<<<<<< HEAD
         </FadeIn>
         <div className="flex flex-col md:flex-row md:items-end md:justify-between gap-10">
           <TextReveal
@@ -112,6 +113,22 @@ export default function About() {
             ))}
           </FadeIn>
         </div>
+=======
+        </ScrollReveal>
+        <ScrollReveal delay={1}>
+          <div className="flex flex-col md:flex-row md:items-end md:justify-between gap-8">
+            <h1 className="font-heading text-cream text-[2.8rem] md:text-6xl lg:text-[5.2rem] leading-[1.08] max-w-4xl tracking-[-0.01em]">
+              We are not<br />
+              your <em className="italic text-cream/80">typical</em> lender.
+            </h1>
+            <div className="flex flex-wrap md:flex-nowrap gap-3 shrink-0 justify-center md:justify-end mb-2">
+              {Object.keys(pillData).map((badge) => (
+                <PillBadge key={badge} label={badge} />
+              ))}
+            </div>
+          </div>
+        </ScrollReveal>
+>>>>>>> 7c3582a42761df654384c4d45e033f21107fd4a9
       </section>
 
       {/* Full-width video */}
