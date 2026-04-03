@@ -68,7 +68,7 @@ export default function Navigation() {
               className={`relative text-[11px] tracking-[0.2em] uppercase transition-colors duration-500 font-body hover-line ${
                 pathname === link.href
                   ? "text-cream"
-                  : "text-cream/80 hover:text-cream/70"
+                  : "text-cream/80 hover:text-cream"
               }`}
             >
               {link.label}

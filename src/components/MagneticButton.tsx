@@ -46,6 +46,7 @@ export default function MagneticButton({
   if (Tag === "link" && href) {
     return (
       <MotionLink
+        ref={ref as React.Ref<HTMLAnchorElement>}
         href={href}
         className={className}
         onMouseMove={handleMouseMove}

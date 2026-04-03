@@ -55,7 +55,7 @@ export default function Footer() {
               Contact
             </p>
             <a
-              href="mailto:gijssleijffers@lorfinance.nl"
+              href="mailto:contact@lorfinance.nl"
               className="text-cream/85 text-sm hover:text-cream transition-colors duration-500 font-body hover-line inline-block w-fit"
             >
               contact@lorfinance.nl

@@ -98,7 +98,7 @@ export default function Enquire() {
               animate={{ y: focusedField === "name" ? -2 : 0 }}
               transition={{ duration: 0.3 }}
             >
-              <label className="text-cream/75 text-[14px] tracking-[0.35em] uppercase font-body transition-colors duration-500" style={{ color: focusedField === "name" ? "rgba(245,242,235,0.5)" : undefined }}>
+              <label className="text-cream/75 text-[14px] tracking-[0.35em] uppercase font-body transition-colors duration-500" style={{ color: focusedField === "name" ? "rgba(245,242,235,0.9)" : undefined }}>
                 Full Name
               </label>
               <input
@@ -120,7 +120,7 @@ export default function Enquire() {
               animate={{ y: focusedField === "email" ? -2 : 0 }}
               transition={{ duration: 0.3 }}
             >
-              <label className="text-cream/75 text-[14px] tracking-[0.35em] uppercase font-body transition-colors duration-500" style={{ color: focusedField === "email" ? "rgba(245,242,235,0.5)" : undefined }}>
+              <label className="text-cream/75 text-[14px] tracking-[0.35em] uppercase font-body transition-colors duration-500" style={{ color: focusedField === "email" ? "rgba(245,242,235,0.9)" : undefined }}>
                 Email Address
               </label>
               <input
@@ -142,7 +142,7 @@ export default function Enquire() {
               animate={{ y: focusedField === "phone" ? -2 : 0 }}
               transition={{ duration: 0.3 }}
             >
-              <label className="text-cream/75 text-[14px] tracking-[0.35em] uppercase font-body transition-colors duration-500" style={{ color: focusedField === "phone" ? "rgba(245,242,235,0.5)" : undefined }}>
+              <label className="text-cream/75 text-[14px] tracking-[0.35em] uppercase font-body transition-colors duration-500" style={{ color: focusedField === "phone" ? "rgba(245,242,235,0.9)" : undefined }}>
                 Phone Number
               </label>
               <input
@@ -163,7 +163,7 @@ export default function Enquire() {
               animate={{ y: focusedField === "propertyType" ? -2 : 0 }}
               transition={{ duration: 0.3 }}
             >
-              <label className="text-cream/75 text-[14px] tracking-[0.35em] uppercase font-body transition-colors duration-500" style={{ color: focusedField === "propertyType" ? "rgba(245,242,235,0.5)" : undefined }}>
+              <label className="text-cream/75 text-[14px] tracking-[0.35em] uppercase font-body transition-colors duration-500" style={{ color: focusedField === "propertyType" ? "rgba(245,242,235,0.9)" : undefined }}>
                 Type of Real Estate
               </label>
               <select
@@ -193,7 +193,7 @@ export default function Enquire() {
               animate={{ y: focusedField === "loanAmount" ? -2 : 0 }}
               transition={{ duration: 0.3 }}
             >
-              <label className="text-cream/75 text-[14px] tracking-[0.35em] uppercase font-body transition-colors duration-500" style={{ color: focusedField === "loanAmount" ? "rgba(245,242,235,0.5)" : undefined }}>
+              <label className="text-cream/75 text-[14px] tracking-[0.35em] uppercase font-body transition-colors duration-500" style={{ color: focusedField === "loanAmount" ? "rgba(245,242,235,0.9)" : undefined }}>
                 Indicative Loan Amount
               </label>
               <input
@@ -214,7 +214,7 @@ export default function Enquire() {
               animate={{ y: focusedField === "description" ? -2 : 0 }}
               transition={{ duration: 0.3 }}
             >
-              <label className="text-cream/75 text-[14px] tracking-[0.35em] uppercase font-body transition-colors duration-500" style={{ color: focusedField === "description" ? "rgba(245,242,235,0.5)" : undefined }}>
+              <label className="text-cream/75 text-[14px] tracking-[0.35em] uppercase font-body transition-colors duration-500" style={{ color: focusedField === "description" ? "rgba(245,242,235,0.9)" : undefined }}>
                 Tell us about your project
               </label>
               <textarea

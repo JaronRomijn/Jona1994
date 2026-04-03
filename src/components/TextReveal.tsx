@@ -65,7 +65,7 @@ export default function TextReveal({
       >
         {words.map((word, i) => (
           <Fragment key={i}>
-            <span className={`inline-block${wordPadding ? ` ${wordPadding}` : ""}`}>
+            <span className={`inline-block overflow-hidden${wordPadding ? ` ${wordPadding}` : ""}`}>
               <motion.span variants={child} className={`inline-block${wordPadding ? ` ${wordPadding}` : ""}${wordStyles[word] ? ` ${wordStyles[word]}` : ""}`}>
                 {word}
               </motion.span>
