@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, useRef, useEffect } from "react";
-import { motion, useInView } from "framer-motion";
+import { motion } from "framer-motion";
 import FadeIn from "@/components/FadeIn";
 import TextReveal from "@/components/TextReveal";
 import Marquee from "@/components/Marquee";
@@ -30,7 +30,7 @@ function PillBadge({ label, index }: { label: string; index: number }) {
       <motion.span
         className="font-heading text-lg md:text-xl tracking-[0.3em] uppercase px-8 md:px-12 py-4 md:py-5 inline-block rounded-sm font-light"
         animate={{
-          color: hovered ? "rgba(245,242,235,1)" : "rgba(245,242,235,0.4)",
+          color: hovered ? "rgba(245,242,235,1)" : "rgba(245,242,235,0.75)",
           borderColor: hovered ? "rgba(245,242,235,0.4)" : "rgba(245,242,235,0.08)",
           backgroundColor: hovered ? "rgba(245,242,235,0.05)" : "transparent",
         }}
@@ -46,11 +46,11 @@ function PillBadge({ label, index }: { label: string; index: number }) {
 
       {/* Tooltip */}
       <motion.div
-        className="absolute top-full left-1/2 mt-5 w-[340px] backdrop-blur-xl border border-cream/8 p-7 rounded-sm"
+        className="absolute top-full mt-5 w-85 backdrop-blur-xl border border-cream/8 p-7 rounded-sm"
         style={{
           zIndex: 9000,
           background: "rgba(22,38,22,0.97)",
-          x: "-50%",
+          ...(index === 0 ? { left: 0 } : index === 2 ? { right: 0 } : { left: "50%", x: "-50%" }),
         }}
         animate={{
           opacity: hovered ? 1 : 0,
@@ -59,8 +59,14 @@ function PillBadge({ label, index }: { label: string; index: number }) {
         }}
         transition={{ duration: 0.4, ease: [0.22, 1, 0.36, 1] }}
       >
-        <div className="absolute -top-2 left-1/2 -translate-x-1/2 w-4 h-4 border-l border-t border-cream/8 transform rotate-45" style={{ background: "rgba(22,38,22,0.97)" }} />
-        <p className="text-cream/30 text-[10px] tracking-[0.35em] uppercase mb-3 font-body">
+        <div
+          className="absolute -top-2 w-4 h-4 border-l border-t border-cream/8 transform rotate-45"
+          style={{
+            background: "rgba(22,38,22,0.97)",
+            ...(index === 0 ? { left: "2rem" } : index === 2 ? { right: "2rem" } : { left: "50%", transform: "translateX(-50%) rotate(45deg)" }),
+          }}
+        />
+        <p className="text-cream/80 text-[14px] tracking-[0.35em] uppercase mb-3 font-body">
           {label}
         </p>
         <p className="text-cream/60 text-sm leading-[1.9] font-body">
@@ -94,16 +100,17 @@ export default function About() {
       {/* Hero section */}
       <section className="pt-32 md:pt-40 pb-8 px-6 md:px-12 max-w-[1400px] mx-auto relative" style={{ zIndex: 30 }}>
         <FadeIn>
-          <p className="text-cream/25 text-[10px] tracking-[0.4em] uppercase mb-8 font-body">
+          <p className="text-cream/75 text-[14px] tracking-[0.4em] uppercase mb-8 font-body">
             About LOR Finance
           </p>
-<<<<<<< HEAD
         </FadeIn>
-        <div className="flex flex-col md:flex-row md:items-end md:justify-between gap-10">
+        <div className="flex flex-col md:flex-row md:items-start md:justify-between gap-10">
           <TextReveal
             as="h1"
             className="font-heading text-cream text-[2.8rem] md:text-[4.5rem] lg:text-[5.5rem] leading-[1.06] max-w-4xl tracking-[-0.02em]"
             delay={0.1}
+            wordPadding="pb-2"
+            wordStyles={{ "typical": "italic text-cream/60" }}
           >
             We are not your typical lender.
           </TextReveal>
@@ -113,22 +120,6 @@ export default function About() {
             ))}
           </FadeIn>
         </div>
-=======
-        </ScrollReveal>
-        <ScrollReveal delay={1}>
-          <div className="flex flex-col md:flex-row md:items-end md:justify-between gap-8">
-            <h1 className="font-heading text-cream text-[2.8rem] md:text-6xl lg:text-[5.2rem] leading-[1.08] max-w-4xl tracking-[-0.01em]">
-              We are not<br />
-              your <em className="italic text-cream/80">typical</em> lender.
-            </h1>
-            <div className="flex flex-wrap md:flex-nowrap gap-3 shrink-0 justify-center md:justify-end mb-2">
-              {Object.keys(pillData).map((badge) => (
-                <PillBadge key={badge} label={badge} />
-              ))}
-            </div>
-          </div>
-        </ScrollReveal>
->>>>>>> 7c3582a42761df654384c4d45e033f21107fd4a9
       </section>
 
       {/* Full-width video */}
@@ -167,7 +158,7 @@ export default function About() {
 
           <FadeIn delay={0.3}>
             <div className="hr-accent mt-12 mb-12" />
-            <p className="text-cream/35 text-base md:text-lg leading-[1.9] font-body max-w-2xl">
+            <p className="text-cream/80 text-base md:text-lg leading-[1.9] font-body max-w-2xl">
               LOR Finance provides real estate debt financing across the
               Netherlands for developers, owners, and operators who need a
               capital partner that truly speaks their language.
@@ -178,16 +169,16 @@ export default function About() {
 
       {/* Marquee divider */}
       <div className="py-6 border-y border-cream/[0.04]">
-        <Marquee speed={35} direction="right" pauseOnHover>
-          <span className="font-body text-cream/[0.06] text-[3rem] md:text-[5rem] tracking-[0.15em] uppercase mx-8 select-none">
+        <Marquee speed={10} direction="right" pauseOnHover>
+          <span className="font-heading italic text-cream/66 text-[4rem] md:text-[7rem] tracking-[0.05em] mx-8 select-none">
             Fast
           </span>
           <span className="text-cream/[0.1] text-lg mx-4 select-none">&mdash;</span>
-          <span className="font-body text-cream/[0.06] text-[3rem] md:text-[5rem] tracking-[0.15em] uppercase mx-8 select-none">
+          <span className="font-heading italic text-cream/66 text-[4rem] md:text-[7rem] tracking-[0.05em] mx-8 select-none">
             Flexible
           </span>
           <span className="text-cream/[0.1] text-lg mx-4 select-none">&mdash;</span>
-          <span className="font-body text-cream/[0.06] text-[3rem] md:text-[5rem] tracking-[0.15em] uppercase mx-8 select-none">
+          <span className="font-heading italic text-cream/66 text-[4rem] md:text-[7rem] tracking-[0.05em] mx-8 select-none">
             Funded
           </span>
           <span className="text-cream/[0.1] text-lg mx-4 select-none">&mdash;</span>

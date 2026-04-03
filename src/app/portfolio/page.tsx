@@ -6,7 +6,6 @@ import { useRef } from "react";
 import Image from "next/image";
 import FadeIn from "@/components/FadeIn";
 import TextReveal from "@/components/TextReveal";
-import AnimatedCounter from "@/components/AnimatedCounter";
 
 const deals = [
   { city: "Amsterdam", amount: "€8.5M", type: "Construction Loan", sector: "Residential" },
@@ -66,39 +65,27 @@ function DealRow({ deal, index, onHover, onLeave }: {
           <h3 className="font-heading text-cream text-xl md:text-[1.6rem] tracking-[-0.01em] font-light">
             {deal.city}
           </h3>
-          <span className="font-heading text-cream/40 text-lg md:text-xl font-light">
+          <span className="font-heading text-cream/85 text-lg md:text-xl font-light">
             {deal.amount}
           </span>
         </div>
-        <p className="text-cream/25 text-[11px] tracking-[0.15em] uppercase mt-1.5 font-body">
+        <p className="text-cream/75 text-[11px] tracking-[0.15em] uppercase mt-1.5 font-body">
           {deal.type}
           {deal.sector ? ` · ${deal.sector}` : ""}
         </p>
       </div>
 
-      <motion.div
-        className="text-cream/0 group-hover:text-cream/30 transition-colors duration-500 ml-4"
-        whileHover={{ x: 3 }}
-      >
-        <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1}>
-          <path strokeLinecap="round" strokeLinejoin="round" d="m8.25 4.5 7.5 7.5-7.5 7.5" />
-        </svg>
-      </motion.div>
     </motion.div>
   );
 }
 
 export default function Portfolio() {
   const [hoveredCity, setHoveredCity] = useState<string | null>(null);
-  const totalDeployed = deals.reduce((sum, d) => {
-    const num = parseFloat(d.amount.replace("€", "").replace("M", ""));
-    return sum + num;
-  }, 0);
 
   return (
     <div className="bg-green-dark min-h-screen">
       {/* Full-width image */}
-      <section className="w-full h-[25vh] md:h-[35vh] relative overflow-hidden" style={{ zIndex: 1 }}>
+      <section className="w-full h-[25vh] md:h-[35vh] overflow-hidden absolute" style={{ zIndex: 1 }}>
         <motion.img
           src="/images/pexels-mike-van-schoonderwalt-1884800-5511806.jpg"
           alt="Dutch canal"
@@ -115,9 +102,9 @@ export default function Portfolio() {
         }} />
       </section>
 
-      <section className="pt-32 md:pt-40 pb-20 md:pb-32 px-6 md:px-12 max-w-[1400px] mx-auto">
+      <section className="pt-32 md:pt-40 pb-20 md:pb-32 px-6 md:px-12 max-w-[1400px] mx-auto" style={{ zIndex: 30, position: "relative" }}>
         <FadeIn>
-          <p className="text-cream/25 text-[10px] tracking-[0.4em] uppercase mb-8 font-body">
+          <p className="text-cream/75 text-[14px] tracking-[0.4em] uppercase mb-8 font-body">
             Track Record
           </p>
         </FadeIn>
@@ -143,36 +130,6 @@ export default function Portfolio() {
             ))}
             <div className="border-t border-cream/[0.06]" />
 
-            {/* Summary stats */}
-            <FadeIn delay={0.2} className="mt-20 flex gap-20">
-              <div>
-                <p className="font-heading text-cream/50 tracking-[-0.03em]">
-                  <AnimatedCounter
-                    value={totalDeployed}
-                    prefix="€"
-                    suffix="M"
-                    decimals={1}
-                    className="text-4xl md:text-5xl"
-                    duration={2.5}
-                  />
-                </p>
-                <p className="text-cream/20 text-[10px] tracking-[0.35em] uppercase mt-3 font-body">
-                  Total Deployed
-                </p>
-              </div>
-              <div>
-                <p className="font-heading text-cream/50 tracking-[-0.03em]">
-                  <AnimatedCounter
-                    value={deals.length}
-                    className="text-4xl md:text-5xl"
-                    duration={1.5}
-                  />
-                </p>
-                <p className="text-cream/20 text-[10px] tracking-[0.35em] uppercase mt-3 font-body">
-                  Transactions
-                </p>
-              </div>
-            </FadeIn>
           </div>
 
           {/* Map */}

@@ -1,6 +1,6 @@
 "use client";
 
-import { useRef } from "react";
+import { useRef, Fragment } from "react";
 import { motion, useInView } from "framer-motion";
 
 interface TextRevealProps {
@@ -10,6 +10,8 @@ interface TextRevealProps {
   delay?: number;
   staggerChildren?: number;
   once?: boolean;
+  wordPadding?: string;
+  wordStyles?: Record<string, string>;
 }
 
 export default function TextReveal({
@@ -19,6 +21,8 @@ export default function TextReveal({
   delay = 0,
   staggerChildren = 0.035,
   once = true,
+  wordPadding,
+  wordStyles = {},
 }: TextRevealProps) {
   const ref = useRef(null);
   const isInView = useInView(ref, { once, margin: "-10% 0px" });
@@ -60,11 +64,14 @@ export default function TextReveal({
         className="inline"
       >
         {words.map((word, i) => (
-          <span key={i} className="inline-block overflow-hidden mr-[0.25em]">
-            <motion.span variants={child} className="inline-block">
-              {word}
-            </motion.span>
-          </span>
+          <Fragment key={i}>
+            <span className={`inline-block${wordPadding ? ` ${wordPadding}` : ""}`}>
+              <motion.span variants={child} className={`inline-block${wordPadding ? ` ${wordPadding}` : ""}${wordStyles[word] ? ` ${wordStyles[word]}` : ""}`}>
+                {word}
+              </motion.span>
+            </span>
+            {i < words.length - 1 && " "}
+          </Fragment>
         ))}
       </motion.span>
     </Tag>
